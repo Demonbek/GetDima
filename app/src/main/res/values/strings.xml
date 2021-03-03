@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Достань Димана</string>
+    <string name="title_activity_new_zadacha">NewZadacha</string>
+    <string name="title">Название</string>
+    <string name="zaeb">Надо сделать</string>
+    <string name="coment">Коментарий</string>
+    <string name="save">Сохранить</string>
+    <string name="ispolneno">Не выполнено</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="autor">Обзовись</string>
+    <string name="add_task">Добавить задание</string>
+    <string name="date">Дата</string>
+</resources>

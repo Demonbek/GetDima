@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:onClick="onClickIspolneno"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/showDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/date"
+                android:importantForAutofill="no"
+                android:textSize="12sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/showTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="true"
+                android:ems="10"
+                android:hint="@string/title"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+
+
+            <TextView
+                android:id="@+id/showZaeb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:autofillHints="true"
+                android:ems="10"
+                android:gravity="start|top"
+                android:text="@string/zaeb"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/showAutor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:autofillHints="true"
+                android:ems="10"
+                android:gravity="start|top"
+                android:paddingTop="10dp"
+                android:text="@string/autor"
+                android:textSize="18sp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/showIspolneno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Исполнение" />
+
+            <Button
+                android:id="@+id/button_ispolneno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickIspolneno"
+                android:text="Исполнено" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
