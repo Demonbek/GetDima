@@ -26,7 +26,8 @@
             android:label="@string/app_name" />
         <activity android:name=".MainArhiv" />
         <activity android:name=".Login" />
-        <activity android:name=".Zastavka" >
+        <activity android:name=".Zastavka"
+            android:theme="@style/Theme.GetDima.NoActionBar">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
