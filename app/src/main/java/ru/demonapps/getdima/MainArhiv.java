@@ -2,32 +2,23 @@ package ru.demonapps.getdima;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    private ListView listVrabote;
-    private ImageView imageView;
+public class MainArhiv extends AppCompatActivity {
+    private ListView listIspolneno;
     private ArrayAdapter<String> adapter;
     private List<String> listTask;
     private List<Zadacha> listTemp;
@@ -36,17 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            Intent intent = new Intent(MainActivity.this, AddTask.class);
-            startActivity(intent);
-        });
+        setContentView(R.layout.activity_arhiv);
 
         init();
         getDataFromDB();
@@ -54,13 +35,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        listVrabote = findViewById(R.id.listVrabote);
-        imageView = findViewById(R.id.imageView);
+        listIspolneno = findViewById(R.id.listIspolneno);
         listTask = new ArrayList<>();
         listTemp = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listTask);
-        listVrabote.setAdapter(adapter);
-        String NEWS_KEY = "Task";
+        listIspolneno.setAdapter(adapter);
+        String NEWS_KEY = "Executed";
         mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
     }
 
@@ -73,11 +53,9 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Zadacha zadacha = ds.getValue(Zadacha.class);
                     assert zadacha != null;
-                    listTask.add(zadacha.title+"\n"+zadacha.autor+"\n"+zadacha.date);
-                    listTemp.add(zadacha);
+                    listTask.add(0, zadacha.title+"\n"+zadacha.autor+"\n"+zadacha.date);
+                    listTemp.add(0, zadacha);
                 }
-                if (listTask.size() == 0) imageView.setVisibility(View.VISIBLE);
-                else imageView.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
             }
 
@@ -90,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setOnClickItem() {
-        listVrabote.setOnItemClickListener((parent, view, position, id) -> {
+        listIspolneno.setOnItemClickListener((parent, view, position, id) -> {
             Zadacha zadacha = listTemp.get(position);
-            Intent i = new Intent(MainActivity.this, ShowActivity.class);
+            Intent i = new Intent(MainArhiv.this, ShowActivity.class);
             i.putExtra(Constant.TASK_BAZA, zadacha.id);
             i.putExtra(Constant.TASK_DATE, zadacha.date);
             i.putExtra(Constant.TASK_TITLE, zadacha.title);
@@ -102,18 +80,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.arhiv_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.arhiv_menu) {
-            Intent intent1 = new Intent(MainActivity.this, MainArhiv.class);
+        if (id == R.id.vrabote_menu) {
+            Intent intent1 = new Intent(MainArhiv.this, MainActivity.class);
             startActivity(intent1);
             return true;
         }

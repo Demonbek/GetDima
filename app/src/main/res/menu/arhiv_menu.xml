@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/arhiv_menu"
+        android:id="@+id/vrabote_menu"
         android:checkable="false"
         android:checked="false"
         android:enabled="true"
-        android:title="Архив"
+        android:title="В работе"
         app:showAsAction="ifRoom" />
 </menu>

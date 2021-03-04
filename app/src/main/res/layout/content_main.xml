@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -18,16 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="В работе"
+            android:text="@string/v_rabote"
             android:textColor="#FF3D00"
             android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="Курю бамбук"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/kuru_bambuk"
             android:scaleType="fitCenter"
+            android:visibility="gone"
             app:srcCompat="@drawable/kurubambuk"
             tools:srcCompat="@drawable/kurubambuk" />
 
@@ -38,21 +39,6 @@
             android:padding="10dp">
 
         </ListView>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Исполнено:"
-            android:textColor="#76FF03"
-            android:textSize="30sp" />
-
-        <ListView
-            android:id="@+id/listIspolneno"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp" />
 
     </LinearLayout>
 

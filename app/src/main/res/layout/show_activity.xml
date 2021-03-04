@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -23,7 +23,7 @@
                 android:ems="10"
                 android:hint="@string/date"
                 android:importantForAutofill="no"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="italic" />
 
             <TextView
@@ -33,8 +33,8 @@
                 android:autofillHints="true"
                 android:ems="10"
                 android:hint="@string/title"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="24sp"
+                android:textColor="?android:attr/colorMultiSelectHighlight"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 tools:ignore="MissingConstraints" />
 
@@ -48,7 +48,7 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:text="@string/zaeb"
-                android:textSize="18sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -61,21 +61,24 @@
                 android:gravity="start|top"
                 android:paddingTop="10dp"
                 android:text="@string/autor"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/showIspolneno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Исполнение" />
+                android:text="Исполнение"
+                android:textSize="18sp"
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/button_ispolneno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onClickIspolneno"
-                android:text="Исполнено" />
+                android:text="Сделано!!!"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </ScrollView>
 

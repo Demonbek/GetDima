@@ -2,10 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/arhiv_menu"
+        android:id="@+id/clear_menu"
         android:checkable="false"
         android:checked="false"
         android:enabled="true"
-        android:title="Архив"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Очистить поля"
         app:showAsAction="ifRoom" />
 </menu>

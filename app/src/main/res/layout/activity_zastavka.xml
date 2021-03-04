@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /**
+  ~  * Created by DemonApps on 27.06.19 17:21
+  ~  * Copyright (c) 2019 . All rights reserved.
+  ~  * Last modified 27.06.19 17:17
+  ~  */
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="#FCFBFA"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="Zastavka">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:contentDescription="Заставка"
+        android:scaleType="fitCenter"
+        android:src="@drawable/zastavka"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:ignore="HardcodedText"
+        tools:srcCompat="@drawable/zastavka" />
+</LinearLayout>

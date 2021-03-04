@@ -23,7 +23,6 @@ public class AddTask extends AppCompatActivity {
     private EditText editZaeb;
     private EditText editAutor;
     private DatabaseReference mDataBase;
-    private String NEWS_KEY = "Task";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,7 @@ public class AddTask extends AppCompatActivity {
         editTitle = findViewById(R.id.editTitle);
         editZaeb = findViewById(R.id.editZaeb);
         editAutor = findViewById(R.id.editAutor);
+        String NEWS_KEY = "Task";
         mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
     }
 
@@ -67,7 +67,7 @@ public class AddTask extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.addtask_menu, menu);
         return true;
     }
 
