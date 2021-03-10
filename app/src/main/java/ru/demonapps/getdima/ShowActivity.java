@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,15 +22,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
 public class ShowActivity extends AppCompatActivity {
+    private static final String TAG = "MyApps";
     private TextView showDate, showTitle, showZaeb, showAutor, showIspolneno;
     private String NEWS_KEY = "Task";
-    Button button_ispolneno;
+    Button onClickIspolneno;
     private DatabaseReference mDataBase;
+    final String FILENAME = "uid_user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +45,11 @@ public class ShowActivity extends AppCompatActivity {
         init();
         getIntentMain();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
             if (Objects.equals(NEWS_KEY, "Executed")) {
-                button_ispolneno.setVisibility(View.GONE);
+                onClickIspolneno.setVisibility(View.GONE);
             }
+            readFile();
         }
     }
 
@@ -50,7 +59,7 @@ public class ShowActivity extends AppCompatActivity {
         showZaeb = findViewById(R.id.showZaeb);
         showAutor = findViewById(R.id.showAutor);
         showIspolneno = findViewById(R.id.showIspolneno);
-        button_ispolneno = findViewById(R.id.button_ispolneno);
+        onClickIspolneno = findViewById(R.id.onClickIspolneno);
         mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
 
     }
@@ -137,11 +146,33 @@ public class ShowActivity extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatForDateNow = new SimpleDateFormat("E, dd.MM.yyyy, HH:mm");
         String ispolneno = formatForDateNow.format(dateNow);
         Zadacha newZadacha = new Zadacha(id, date, title, zaeb, autor, ispolneno);
-            mDataBase.push().setValue(newZadacha);
+        mDataBase.push().setValue(newZadacha);
         Intent i = new Intent(ShowActivity.this, MainActivity.class);
         startActivity(i);
     }
 
+    public void readFile() {
+        try {
+            // открываем поток для чтения
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    openFileInput(FILENAME)));
+            String uid = "";
+            // читаем содержимое
+            while ((uid = br.readLine()) != null) {
+                Log.d(TAG, uid);
+                if (!uid.equals("W7csMUEio2Pm0DT4DtFWylwMPSD3")) {
+                    onClickIspolneno.setVisibility(View.GONE);
+                }
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
 
 

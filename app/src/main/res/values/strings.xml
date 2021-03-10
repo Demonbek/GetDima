@@ -2,7 +2,7 @@
     <string name="app_name">Достань Димана</string>
     <string name="title_activity_new_zadacha">NewZadacha</string>
     <string name="title">Задача</string>
-    <string name="zaeb">Что сделать то?..</string>
+    <string name="zaeb">Что сделать то?…\nАдрес…\nКонтакты…</string>
     <string name="save">Сохранить</string>
     <string name="ispolneno">Не выполнено</string>
     <string name="title_activity_main">MainActivity</string>

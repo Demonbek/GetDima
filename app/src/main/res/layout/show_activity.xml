@@ -12,7 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:onClick="onClickIspolneno"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -89,11 +88,13 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button_ispolneno"
+                android:id="@+id/onClickIspolneno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:onClick="onClickIspolneno"
                 android:text="Сделано!!!"
+                android:textStyle="bold"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
     </ScrollView>
