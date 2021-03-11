@@ -7,22 +7,35 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Objects;
 
 public class Login extends AppCompatActivity {
     private static final String TAG = "MyApps";
     private EditText edLogin, edPassword;
     private FirebaseAuth mAuth;
     final String FILENAME = "uid_user";
-    public String uid;
+    public static String uid;
+    private DatabaseReference mDataBase;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,11 +48,12 @@ public class Login extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser cUser = mAuth.getCurrentUser();
+
         if (cUser != null) {
             Toast.makeText(this, "Привет", Toast.LENGTH_LONG).show();
-
+            uid = mAuth.getUid();
             writeFile();
-            Log.d(TAG, uid +" Записан при входе");
+            Log.d(TAG, " Записан при входе");
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -52,6 +66,8 @@ public class Login extends AppCompatActivity {
         edLogin = findViewById(R.id.edLogin);
         edPassword = findViewById(R.id.edPassword);
         mAuth = FirebaseAuth.getInstance();
+        String NEWS_KEY = "Uid";
+        mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
     }
 
     public void OnClickSignUp(View view) {
@@ -74,7 +90,7 @@ public class Login extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Вход выполнен", Toast.LENGTH_LONG).show();
                     writeFile();
-                    Log.d(TAG, uid +" Записан по логину");
+                    Log.d(TAG, uid + " Записан по логину");
                     Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -84,21 +100,48 @@ public class Login extends AppCompatActivity {
             });
         }
     }
+
     public void writeFile() {
-        try {
-            String uid = mAuth.getUid();
-            // отрываем поток для записи
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-                    openFileOutput(FILENAME, MODE_PRIVATE)));
-            // пишем данные
-            bw.write(uid);
-            // закрываем поток
-            bw.close();
-            Log.d(TAG, uid+"Файл записан");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String uid = mAuth.getUid();
+        assert uid != null;
+        mDataBase.child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    String autor = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+                    // отрываем поток для записи
+                    BufferedWriter bw = null;
+                    try {
+                        bw = new BufferedWriter(new OutputStreamWriter(
+                                openFileOutput(FILENAME, MODE_PRIVATE)));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    // пишем данные
+                    try {
+                        assert bw != null;
+                        bw.write(autor);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // закрываем поток
+                    try {
+                        bw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d(TAG, (autor + "Файл записан"));
+                    Log.d(TAG, autor +" autor");
+                }
+            }
+        });
+
+
     }
+
+
 }

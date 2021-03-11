@@ -160,7 +160,7 @@ public class ShowActivity extends AppCompatActivity {
             // читаем содержимое
             while ((uid = br.readLine()) != null) {
                 Log.d(TAG, uid);
-                if (!uid.equals("W7csMUEio2Pm0DT4DtFWylwMPSD3")) {
+                if (!uid.equals("Дмитрий Л.")) {
                     onClickIspolneno.setVisibility(View.GONE);
                 }
             }

@@ -36,17 +36,6 @@
                 android:textSize="30sp"
                 tools:ignore="MissingConstraints" />
 
-            <EditText
-                android:id="@+id/editAutor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="true"
-                android:ems="10"
-                android:gravity="start|top"
-                android:hint="@string/autor"
-                android:inputType="textPersonName"
-                android:textSize="24sp" />
-
 
             <Button
                 android:id="@+id/btnSaveUp"
