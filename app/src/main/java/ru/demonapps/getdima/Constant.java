@@ -7,4 +7,7 @@ public class Constant {
     public final static String TASK_ZAEB = "zaeb";
     public final static String TASK_AUTOR = "autor";
     public static final String TASK_ISPOLNENO = "ispolneno" ;
+
+    //Уведомления
+    public static final String CHANNEL_ID = "2244";
 }

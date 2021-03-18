@@ -116,10 +116,10 @@ public class ShowActivity extends AppCompatActivity {
     }
 
     public void onClickIspolneno(View view) {
-        //Удаление из базы заданий
-        String title_delet = (String) showTitle.getText();
+        //Удаление из базы заданий по дате постановки задачи
+        String task_delet = (String) showDate.getText();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query newsQuery = ref.child(NEWS_KEY).orderByChild("title").equalTo(title_delet);
+        Query newsQuery = ref.child(NEWS_KEY).orderByChild("date").equalTo(task_delet);
 
         newsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -144,7 +144,7 @@ public class ShowActivity extends AppCompatActivity {
         String autor = showAutor.getText().toString();
         Date dateNow = new Date();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatForDateNow = new SimpleDateFormat("E, dd.MM.yyyy, HH:mm");
-        String ispolneno = formatForDateNow.format(dateNow);
+        String ispolneno = "Исполнено ("+formatForDateNow.format(dateNow)+")";
         Zadacha newZadacha = new Zadacha(id, date, title, zaeb, autor, ispolneno);
         mDataBase.push().setValue(newZadacha);
         Intent i = new Intent(ShowActivity.this, MainActivity.class);

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.common.api.Api;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseError;
@@ -28,6 +29,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Objects;
+
+import ru.demonapps.getdima.servises.ClientService;
+import ru.demonapps.getdima.servises.MyService;
 
 public class Login extends AppCompatActivity {
     private static final String TAG = "MyApps";
@@ -104,39 +108,44 @@ public class Login extends AppCompatActivity {
     public void writeFile() {
         String uid = mAuth.getUid();
         assert uid != null;
-        mDataBase.child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
+        mDataBase.child(uid).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            }
+            else {
+                String autor = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
+
+                //Запускаем сервисы
+                if (autor.equals("Дмитрий Л.")){
+                    startService(new Intent(this, MyService.class));
                 }
                 else {
-                    String autor = String.valueOf(Objects.requireNonNull(task.getResult()).getValue());
-                    // отрываем поток для записи
-                    BufferedWriter bw = null;
-                    try {
-                        bw = new BufferedWriter(new OutputStreamWriter(
-                                openFileOutput(FILENAME, MODE_PRIVATE)));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    // пишем данные
-                    try {
-                        assert bw != null;
-                        bw.write(autor);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // закрываем поток
-                    try {
-                        bw.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    Log.d(TAG, (autor + "Файл записан"));
-                    Log.d(TAG, autor +" autor");
+                   startService(new Intent(this, ClientService.class));
                 }
+                // отрываем поток для записи
+                BufferedWriter bw = null;
+                try {
+                    bw = new BufferedWriter(new OutputStreamWriter(
+                            openFileOutput(FILENAME, MODE_PRIVATE)));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                // пишем данные
+                try {
+                    assert bw != null;
+                    bw.write(autor);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // закрываем поток
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d(TAG, (autor + "Файл записан"));
+                Log.d(TAG, autor +" autor");
             }
         });
 

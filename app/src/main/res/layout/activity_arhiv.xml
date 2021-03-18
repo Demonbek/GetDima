@@ -22,15 +22,13 @@
         android:textSize="30sp"
         tools:ignore="HardcodedText,MissingConstraints" />
 
-    <ListView
-        android:id="@+id/listIspolneno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="22sp"
-        tools:ignore="MissingConstraints">
+        <ListView
+            android:id="@+id/listIspolneno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
 
-    </ListView>
+        </ListView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

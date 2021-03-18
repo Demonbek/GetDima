@@ -35,8 +35,7 @@
         <ListView
             android:id="@+id/listVrabote"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
         </ListView>
 
