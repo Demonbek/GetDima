@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by DemonApps on 23.03.21 21:17
+ *  * Copyright (c) 2021 . All rights reserved.
+ *  * Last modified 11.03.21 23:24
+ *
+ */
+
 package ru.demonapps.getdima;
 
 import androidx.appcompat.app.AppCompatActivity;

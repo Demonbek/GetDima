@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /**
+  ~  * Created by DemonApps on 23.03.21 21:17
+  ~  * Copyright (c) 2021 . All rights reserved.
+  ~  * Last modified 04.03.21 19:31
+  ~  */
+  -->
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item

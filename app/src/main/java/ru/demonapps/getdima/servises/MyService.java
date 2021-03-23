@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by DemonApps on 23.03.21 21:17
+ *  * Copyright (c) 2021 . All rights reserved.
+ *  * Last modified 23.03.21 20:55
+ *
+ */
+
 package ru.demonapps.getdima.servises;
 
 import android.app.PendingIntent;
@@ -43,7 +51,7 @@ public class MyService extends Service {
     private static String lastTask;
     Timer mTimer;
     MyTimerTask mMyTimerTask;
-    private DatabaseReference mDataBase;
+    DatabaseReference mDataBase;
 
     @Override
     public void onCreate() {
@@ -62,7 +70,7 @@ public class MyService extends Service {
         }
         mTimer = new Timer();
         mMyTimerTask = new MyTimerTask();
-        mTimer.schedule(mMyTimerTask, 5000, 1800000);
+        mTimer.schedule(mMyTimerTask, 60000, 300000);
 
         return MyService.START_STICKY;
     }
@@ -94,7 +102,6 @@ public class MyService extends Service {
     }
 
     class LastTaskClass implements Runnable {
-       // private String lastTask;
         private String oldTask;
 
         @Override
@@ -115,10 +122,9 @@ public class MyService extends Service {
                 try {
                     if (br != null) {
                         if ((oldTask1 = br.readLine()) == null) break;
-                    }
-                    else{
+                    } else {
                         writeFile("Пусть будет не пусто...");
-                        Log.d(TAG,  "файла нет записали null");
+                        Log.d(TAG, "файла нет записали null");
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -136,12 +142,49 @@ public class MyService extends Service {
 
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
                         Zadacha objTask = data.getValue(Zadacha.class);
+                        assert objTask != null;
                         Log.i(TAG, data.getKey() + " = " + objTask.title);
                         lastTask = objTask.title;
                         Log.i(TAG, "lastTask - в onDataChange " + lastTask);
+                        Log.i(TAG, "OldTask - в onDataChange " + oldTask);
+
+                        //Отправка сообщения...
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Log.i(TAG, "lastTask  перед сообщением-" + lastTask);
+                            if (lastTask != null) {
+                                if (Objects.equals(oldTask, lastTask)) {
+                                    Log.i(TAG, "Нет Новостей");
+                                } else {
+                                    Log.i(TAG, "oldNews - " + oldTask);
+                                    Log.i(TAG, "Сообщение отправка");
+                                    // Create an explicit intent for an Activity in your app
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+                                    Log.d(TAG, lastTask + "(сообщение)");
+                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), Constant.CHANNEL_ID)
+                                            .setSmallIcon(R.drawable.ic_stat_name)
+                                            .setTicker("Задание")
+                                            .setContentTitle("Новое задание")
+                                            .setContentText(lastTask)
+                                            .setStyle(new NotificationCompat.BigTextStyle()
+                                                    .bigText(lastTask))
+                                            .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                                                    R.drawable.zastavka))
+                                            .setPriority(NotificationCompat.PRIORITY_MAX)
+                                            // Set the intent that will fire when the user taps the notification
+                                            .setContentIntent(pendingIntent)
+                                            .setAutoCancel(true);
+                                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
+                                    // notificationId is a unique int for each notification that you must define
+                                    int notificationId = 4454;
+                                    notificationManager.notify(notificationId, builder.build());
+                                    writeFile(lastTask);
+                                }
+                            }
+                        }
                     }
-
-
                 }
 
                 @Override
@@ -149,41 +192,7 @@ public class MyService extends Service {
                     //Handle possible errors.
                 }
             });
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                Log.i(TAG, "lastTask  перед сообщением-" + lastTask);
-                if (lastTask != null) {
-                    if (Objects.equals(oldTask, lastTask)) {
-                        Log.i(TAG, "Нет Новостей");
-                    } else {
-                        Log.i(TAG, "oldNews - " + oldTask);
-                        Log.i(TAG, "Сообщение отправка");
-                        // Create an explicit intent for an Activity in your app
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-                        Log.d(TAG, lastTask + "(сообщение)");
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), Constant.CHANNEL_ID)
-                                .setSmallIcon(R.drawable.ic_stat_name)
-                                .setTicker("Задание")
-                                .setContentTitle("Новое задание")
-                                .setContentText(lastTask)
-                                .setStyle(new NotificationCompat.BigTextStyle()
-                                        .bigText(lastTask))
-                                .setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                                        R.drawable.zastavka))
-                                .setPriority(NotificationCompat.PRIORITY_MAX)
-                                // Set the intent that will fire when the user taps the notification
-                                .setContentIntent(pendingIntent)
-                                .setAutoCancel(true);
-                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
-                        // notificationId is a unique int for each notification that you must define
-                        int notificationId = 4454;
-                        notificationManager.notify(notificationId, builder.build());
-                        writeFile(lastTask);
-                    }
-                }
-            }
         }
 
         public void writeFile(String lastTask) {

@@ -1,3 +1,11 @@
+<!--
+  ~ /**
+  ~  * Created by DemonApps on 23.03.21 21:17
+  ~  * Copyright (c) 2021 . All rights reserved.
+  ~  * Last modified 18.03.21 20:06
+  ~  */
+  -->
+
 <resources>
     <string name="app_name">Достань Димана</string>
     <string name="title_activity_new_zadacha">NewZadacha</string>

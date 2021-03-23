@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by DemonApps on 23.03.21 21:17
+ *  * Copyright (c) 2021 . All rights reserved.
+ *  * Last modified 23.03.21 21:04
+ *
+ */
+
 package ru.demonapps.getdima;
 
 import android.content.Intent;
@@ -7,29 +15,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.common.api.Api;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Objects;
-
 import ru.demonapps.getdima.servises.ClientService;
 import ru.demonapps.getdima.servises.MyService;
 

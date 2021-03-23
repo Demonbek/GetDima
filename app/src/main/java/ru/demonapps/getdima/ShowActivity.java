@@ -1,3 +1,11 @@
+/*
+ * *
+ *  * Created by DemonApps on 23.03.21 21:17
+ *  * Copyright (c) 2021 . All rights reserved.
+ *  * Last modified 18.03.21 23:39
+ *
+ */
+
 package ru.demonapps.getdima;
 
 import android.annotation.SuppressLint;
