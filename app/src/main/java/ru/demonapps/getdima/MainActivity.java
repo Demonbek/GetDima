@@ -1,14 +1,13 @@
 /*
  * *
- *  * Created by DemonApps on 23.03.21 21:17
+ *  * Created by DemonApps on 24.04.21 0:37
  *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 18.03.21 23:13
+ *  * Last modified 24.04.21 0:37
  *
  */
 
 package ru.demonapps.getdima;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -26,27 +25,22 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MyApps";
+    //private static final String TAG = "MyApps";
     private ListView listVrabote;
     private ImageView imageView;
-    private ArrayAdapter<String> adapter;
-    private List<String> listTask;
     private List<Zadacha> listTemp;
     private DatabaseReference mDataBase;
-
+    ArrayList<Zadacha> task = new ArrayList<>();
+    MyTaskAdapter myTaskAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         listVrabote = findViewById(R.id.listVrabote);
         imageView = findViewById(R.id.imageView);
-        listTask = new ArrayList<>();
         listTemp = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listTask);
-        listVrabote.setAdapter(adapter);
+        myTaskAdapter = new MyTaskAdapter(this, task);
         String NEWS_KEY = "Task";
         mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
     }
@@ -83,17 +75,17 @@ public class MainActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (listTask.size() > 0) listTask.clear();
+                if (task.size() > 0) task.clear();
                 if (listTemp.size() > 0) listTemp.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Zadacha zadacha = ds.getValue(Zadacha.class);
                     assert zadacha != null;
-                    listTask.add(zadacha.title+"\n"+zadacha.autor+"\n"+zadacha.date);
+                    task.add(zadacha);
                     listTemp.add(zadacha);
                 }
-                if (listTask.size() == 0) imageView.setVisibility(View.VISIBLE);
+                if (task.size() == 0) imageView.setVisibility(View.VISIBLE);
                 else imageView.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
+                listVrabote.setAdapter(myTaskAdapter);
             }
 
             @Override

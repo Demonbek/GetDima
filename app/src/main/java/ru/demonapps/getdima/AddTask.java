@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 23.03.21 21:17
+ *  * Created by DemonApps on 24.04.21 0:37
  *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 11.03.21 23:24
+ *  * Last modified 24.04.21 0:37
  *
  */
 
@@ -60,7 +60,6 @@ public class AddTask extends AppCompatActivity {
         String date = formatForDateNow.format(dateNow);
         String title = editTitle.getText().toString();
         String zaeb = editZaeb.getText().toString();
-        //String autor = editAutor.getText().toString();
         String autor = readFile();
         String ispolneno = "В работе...";
         Zadacha newZadacha = new Zadacha(id, date, title, zaeb, autor, ispolneno);

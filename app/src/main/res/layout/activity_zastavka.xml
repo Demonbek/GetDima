@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by DemonApps on 23.03.21 21:17
+  ~  * Created by DemonApps on 24.04.21 0:37
   ~  * Copyright (c) 2021 . All rights reserved.
-  ~  * Last modified 04.03.21 23:45
+  ~  * Last modified 26.03.21 16:39
   ~  */
   -->
 
@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:background="#FCFBFA"
+    android:background="#B0FFBB33"
     android:gravity="center"
     android:orientation="vertical"
     tools:context="Zastavka">

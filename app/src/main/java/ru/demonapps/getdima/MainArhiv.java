@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 23.03.21 21:17
+ *  * Created by DemonApps on 24.04.21 0:37
  *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 12.03.21 20:45
+ *  * Last modified 24.04.21 0:37
  *
  */
 
@@ -10,10 +10,8 @@ package ru.demonapps.getdima;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,19 +19,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainArhiv extends AppCompatActivity {
-    private static final String TAG = "MyApps";
+    //private static final String TAG = "MyApps";
     private ListView listIspolneno;
-    private ArrayAdapter<String> adapter;
-    private List<String> listTask;
     private List<Zadacha> listTemp;
     private DatabaseReference mDataBase;
+    ArrayList<Zadacha> taskExecuted = new ArrayList<>();
+    MyTaskAdapter myTaskAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +44,8 @@ public class MainArhiv extends AppCompatActivity {
 
     private void init() {
         listIspolneno = findViewById(R.id.listIspolneno);
-        listTask = new ArrayList<>();
         listTemp = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listTask);
-        listIspolneno.setAdapter(adapter);
+        myTaskAdapter = new MyTaskAdapter(this, taskExecuted);
         String NEWS_KEY = "Executed";
         mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
     }
@@ -59,15 +54,15 @@ public class MainArhiv extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (listTask.size() > 0) listTask.clear();
+                if (taskExecuted.size() > 0) taskExecuted.clear();
                 if (listTemp.size() > 0) listTemp.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Zadacha zadacha = ds.getValue(Zadacha.class);
                     assert zadacha != null;
-                    listTask.add(0, zadacha.title+"\n"+zadacha.autor+"\n"+zadacha.date);
+                    taskExecuted.add(0, zadacha);
                     listTemp.add(0, zadacha);
                 }
-                adapter.notifyDataSetChanged();
+                listIspolneno.setAdapter(myTaskAdapter);
             }
 
             @Override
