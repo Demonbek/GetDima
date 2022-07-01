@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 01.07.2022, 23:15
+ *  * Created by DemonApps on 01.07.2022, 23:34
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 01.07.2022, 23:02
+ *  * Last modified 01.07.2022, 23:24
  *
  */
 
@@ -15,14 +15,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 

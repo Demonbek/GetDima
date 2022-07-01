@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by DemonApps on 24.04.21 0:37
-  ~  * Copyright (c) 2021 . All rights reserved.
-  ~  * Last modified 23.03.21 21:17
+  ~  * Created by DemonApps on 01.07.2022, 23:34
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  * Last modified 01.07.2022, 23:22
   ~  */
   -->
 
@@ -36,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@android:color/holo_green_light"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        android:contentDescription="@string/add_task" />
+        android:contentDescription="@string/add_task"
+        app:backgroundTint="@android:color/holo_orange_light"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
