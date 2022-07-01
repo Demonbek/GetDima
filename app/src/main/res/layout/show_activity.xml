@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by DemonApps on 24.04.21 0:37
-  ~  * Copyright (c) 2021 . All rights reserved.
-  ~  * Last modified 24.04.21 0:24
+  ~  * Created by DemonApps on 01.07.2022, 23:15
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  * Last modified 01.07.2022, 22:04
   ~  */
   -->
 
@@ -59,21 +59,6 @@
                 android:text="@string/zaeb"
                 android:textSize="30sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/showAutor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="all"
-                android:autofillHints="true"
-                android:ems="10"
-                android:gravity="end"
-                android:paddingTop="10dp"
-                android:text="@string/autor"
-                android:textColor="#FF3D00"
-                android:textSize="24sp"
-                android:textStyle="bold|italic"
-                tools:ignore="MissingConstraints" />
 
             <LinearLayout
                 android:layout_width="match_parent"

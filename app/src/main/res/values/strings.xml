@@ -1,13 +1,13 @@
 <!--
   ~ /**
-  ~  * Created by DemonApps on 24.04.21 0:37
-  ~  * Copyright (c) 2021 . All rights reserved.
-  ~  * Last modified 23.03.21 21:17
+  ~  * Created by DemonApps on 01.07.2022, 23:15
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  * Last modified 01.07.2022, 20:20
   ~  */
   -->
 
 <resources>
-    <string name="app_name">Достань Димана</string>
+    <string name="app_name">Мои задачи</string>
     <string name="title_activity_new_zadacha">NewZadacha</string>
     <string name="title">Задача</string>
     <string name="zaeb">Коментарий, Адрес, Контакты…</string>
@@ -20,15 +20,6 @@
     <string name="kuru_bambuk">Курю бамбук</string>
     <string name="v_rabote">В работе</string>
     <string name="delet">Удалить</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="channel_name">Задачи</string>
     <string name="channel_description">Информирование о статусе задачи…</string>
 </resources>

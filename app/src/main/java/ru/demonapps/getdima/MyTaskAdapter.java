@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 24.04.21 0:37
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 23.04.21 23:38
+ *  * Created by DemonApps on 01.07.2022, 23:15
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 01.07.2022, 21:28
  *
  */
 
@@ -61,7 +61,6 @@ public class MyTaskAdapter extends BaseAdapter {
         // заполняем View в пункте списка данными из задачи: дата, наименование, автор
         ((TextView) view.findViewById(R.id.taskData)).setText(n.date);
         ((TextView) view.findViewById(R.id.taskTitle)).setText(n.title);
-        ((TextView) view.findViewById(R.id.tackAutor)).setText(n.autor);
 
         return view;
     }

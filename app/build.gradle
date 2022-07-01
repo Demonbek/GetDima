@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 24.04.21 0:37
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 23.04.21 22:49
+ *  * Created by DemonApps on 01.07.2022, 23:15
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 01.07.2022, 20:09
  *
  */
 
@@ -12,7 +12,6 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "ru.demonapps.getdima"

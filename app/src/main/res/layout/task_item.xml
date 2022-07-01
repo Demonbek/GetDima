@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by DemonApps on 24.04.21 0:37
-  ~  * Copyright (c) 2021 . All rights reserved.
-  ~  * Last modified 24.04.21 0:13
+  ~  * Created by DemonApps on 01.07.2022, 23:15
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  * Last modified 01.07.2022, 23:07
   ~  */
   -->
 
@@ -34,14 +34,5 @@
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tackAutor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:textColor="#FF3D00"
-        android:textSize="18sp"
-        android:textStyle="bold|italic" />
 
 </LinearLayout>

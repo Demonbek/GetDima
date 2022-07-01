@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 24.04.21 0:37
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 23.03.21 21:17
+ *  * Created by DemonApps on 01.07.2022, 23:15
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 01.07.2022, 23:02
  *
  */
 
@@ -10,41 +10,24 @@ package ru.demonapps.getdima;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 public class ShowActivity extends AppCompatActivity {
     private static final String TAG = "MyApps";
-    private TextView showDate, showTitle, showZaeb, showAutor, showIspolneno;
-    private String NEWS_KEY = "Task";
+    private TextView showDate, showTitle, showZaeb, showIspolneno;
+    private String TASK_TABLE;
     Button onClickIspolneno;
-    private DatabaseReference mDataBase;
-    final String FILENAME = "uid_user";
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +35,27 @@ public class ShowActivity extends AppCompatActivity {
         setContentView(R.layout.show_activity);
         init();
         getIntentMain();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-            if (Objects.equals(NEWS_KEY, "Executed")) {
-                onClickIspolneno.setVisibility(View.GONE);
-            }
-            readFile();
-        }
+        db = getBaseContext().openOrCreateDatabase("tasks.db", MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TASK_TABLE + " (data TEXT, title TEXT, zaeb TEXT, ispolneno TEXT, UNIQUE(title))");
+        if (TASK_TABLE.equals("executed")) onClickIspolneno.setVisibility(View.GONE);
     }
 
     private void init() {
         showDate = findViewById(R.id.showDate);
         showTitle = findViewById(R.id.showTitle);
         showZaeb = findViewById(R.id.showZaeb);
-        showAutor = findViewById(R.id.showAutor);
         showIspolneno = findViewById(R.id.showIspolneno);
         onClickIspolneno = findViewById(R.id.onClickIspolneno);
-        mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
-
     }
 
     private void getIntentMain() {
         Intent i = getIntent();
         if (i != null) {
-            NEWS_KEY = i.getStringExtra(Constant.TASK_BAZA);
             showDate.setText(i.getStringExtra(Constant.TASK_DATE));
             showTitle.setText(i.getStringExtra(Constant.TASK_TITLE));
             showZaeb.setText(i.getStringExtra(Constant.TASK_ZAEB));
-            showAutor.setText(i.getStringExtra(Constant.TASK_AUTOR));
             showIspolneno.setText(i.getStringExtra(Constant.TASK_ISPOLNENO));
+            TASK_TABLE = i.getStringExtra(Constant.TASK_TABLE);
         }
     }
 
@@ -97,26 +72,12 @@ public class ShowActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.delet_menu) {
             String title_delet = (String) showTitle.getText();
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-            Query newsQuery = ref.child(NEWS_KEY).orderByChild("title").equalTo(title_delet);
-
-            newsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot newsSnapshot : dataSnapshot.getChildren()) {
-                        newsSnapshot.getRef().removeValue();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
+            db.delete(TASK_TABLE, "title=?", new String[]{title_delet});
+            db.close();
             Toast.makeText(this, "Задание удалено...", Toast.LENGTH_SHORT).show();
             Intent intent1 = new Intent(ShowActivity.this, MainActivity.class);
             startActivity(intent1);
+
             finish();
             return true;
         }
@@ -124,63 +85,23 @@ public class ShowActivity extends AppCompatActivity {
     }
 
     public void onClickIspolneno(View view) {
-        //Удаление из базы заданий по дате постановки задачи
-        String task_delet = (String) showDate.getText();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query newsQuery = ref.child(NEWS_KEY).orderByChild("date").equalTo(task_delet);
-
-        newsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot newsSnapshot : dataSnapshot.getChildren()) {
-                    newsSnapshot.getRef().removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        //Удаление из базы заданий по дате Title задачи
+        String task_delet = (String) showTitle.getText();
+        db.delete(TASK_TABLE, "title=?", new String[]{task_delet});
         //Запись в архив
-        NEWS_KEY = "Executed";
-        mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
-        String id = mDataBase.getKey();
+        TASK_TABLE = "executed";
         String date = showDate.getText().toString();
         String title = showTitle.getText().toString();
         String zaeb = showZaeb.getText().toString();
-        String autor = showAutor.getText().toString();
         Date dateNow = new Date();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatForDateNow = new SimpleDateFormat("E, dd.MM.yyyy, HH:mm");
-        String ispolneno = "Исполнено ("+formatForDateNow.format(dateNow)+")";
-        Zadacha newZadacha = new Zadacha(id, date, title, zaeb, autor, ispolneno);
-        mDataBase.push().setValue(newZadacha);
+        String ispolneno = "Исполнено (" + formatForDateNow.format(dateNow) + ")";
+        db.execSQL("INSERT OR IGNORE INTO " + TASK_TABLE + " VALUES ('" + date + "', '" + title + "', '" + zaeb + "', '" + ispolneno + "');");
+        db.close();
         Intent i = new Intent(ShowActivity.this, MainActivity.class);
         startActivity(i);
     }
 
-    public void readFile() {
-        try {
-            // открываем поток для чтения
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    openFileInput(FILENAME)));
-            String uid = "";
-            // читаем содержимое
-            while ((uid = br.readLine()) != null) {
-                Log.d(TAG, uid);
-                if (!uid.equals("Дмитрий Л.")) {
-                    onClickIspolneno.setVisibility(View.GONE);
-                }
-            }
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 }
 
 

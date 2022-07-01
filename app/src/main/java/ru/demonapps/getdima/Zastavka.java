@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 24.04.21 0:37
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 23.03.21 21:17
+ *  * Created by DemonApps on 01.07.2022, 23:15
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 01.07.2022, 20:27
  *
  */
 
@@ -40,7 +40,7 @@ public class Zastavka extends AppCompatActivity {
                 finally {
                     //Закрываем activity:
                     finish();
-                    startActivity(new Intent(Zastavka.this, Login.class));
+                    startActivity(new Intent(Zastavka.this, MainActivity.class));
                 }
             }
         };

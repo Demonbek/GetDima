@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by DemonApps on 24.04.21 0:37
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 24.04.21 0:37
+ *  * Created by DemonApps on 01.07.2022, 23:15
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 01.07.2022, 22:58
  *
  */
 
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,14 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,9 +28,7 @@ public class AddTask extends AppCompatActivity {
     private static final String TAG = "MyApp" ;
     private EditText editTitle;
     private EditText editZaeb;
-    private DatabaseReference mDataBase;
-    final String FILENAME = "uid_user";
-
+    private static final String TASK_TABLE = "task";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,28 +40,26 @@ public class AddTask extends AppCompatActivity {
     private void init() {
         editTitle = findViewById(R.id.editTitle);
         editZaeb = findViewById(R.id.editZaeb);
-        String NEWS_KEY = "Task";
-        mDataBase = FirebaseDatabase.getInstance().getReference(NEWS_KEY);
     }
 
     public void onClickSave(View view) {
-        String id = mDataBase.getKey();
+        //Открываем базу данных
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("tasks.db", MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TASK_TABLE + " (data TEXT, title TEXT, zaeb TEXT, ispolneno TEXT, UNIQUE(title))");
         Date dateNow = new Date();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatForDateNow = new SimpleDateFormat("E, dd.MM.yyyy, HH:mm");
         String date = formatForDateNow.format(dateNow);
         String title = editTitle.getText().toString();
         String zaeb = editZaeb.getText().toString();
-        String autor = readFile();
         String ispolneno = "В работе...";
-        Zadacha newZadacha = new Zadacha(id, date, title, zaeb, autor, ispolneno);
 
-        if ( (!TextUtils.isEmpty(title)) && (!TextUtils.isEmpty(zaeb)) && (!TextUtils.isEmpty(autor))) {
-            mDataBase.push().setValue(newZadacha);
+        if ( (!TextUtils.isEmpty(title)) && (!TextUtils.isEmpty(zaeb))) {
+            db.execSQL("INSERT OR IGNORE INTO " + TASK_TABLE + " VALUES ('" + date + "', '" + title + "', '" + zaeb + "', '" + ispolneno + "');");
             editTitle.setText(null);
             editZaeb.setText(null);
             Toast.makeText(this, "Задача добавлена... ", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "Не поля заполнены...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Не все поля заполнены...", Toast.LENGTH_LONG).show();
         }
         Intent i = new Intent(AddTask.this, MainActivity.class);
         startActivity(i);
@@ -94,24 +83,5 @@ public class AddTask extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    String readFile() {
-        try {
-            // открываем поток для чтения
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    openFileInput(FILENAME)));
-            String str = "";
-            // читаем содержимое
-            while ((str = br.readLine()) != null) {
-                Log.d(TAG, str+" Прочитано из файла");
-                return str;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
